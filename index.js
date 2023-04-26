@@ -6,6 +6,7 @@ const Product = require("./db/product")
 const Jwt = require('jsonwebtoken');
 const jwtKey = 'e-com';
 const app = express();
+const port = process.env.PORT || 5000
 
 require("dotenv").config()
 
@@ -105,6 +106,6 @@ app.get("/search/:key", async (req, resp) => {
     resp.send(result);
 })
 
-app.listen(process.env.PORT, ()=>{
+app.listen(port, ()=>{
     console.log("connected")
 });
