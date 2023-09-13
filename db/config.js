@@ -1,2 +1,9 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/e-com')
+require ("dotenv").config()
+mongoose.connect(process.env.MONGO_URL,{
+    dbName: process.env.DB_NAME
+}).then(()=>{
+    console.log(`connected to ${process.env.DB_NAME}`);
+}).catch((error)=>{
+    console.log(`${error} connecting to ${process.env.DB_NAME}`)
+})
