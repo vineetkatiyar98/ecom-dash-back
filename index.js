@@ -10,16 +10,16 @@ const port = process.env.PORT || 8000;
 app.use(express.json());
 app.use(cors());
 
-
 app.post("/register", async (req, resp) => {
   try{
     let user = new User(req.body);
     let result = await user.save();
     result = result.toObject();
     delete result.password;
-    resp.send(result);
+    resp.status(200).json(result);
   }catch(e){
-    resp.status(409).send(e.message);
+    console.log(e)
+    resp.status(500).send(e);
   }
 });
 
@@ -29,16 +29,16 @@ try{
     let user = await User.findOne(req.body).select("-password");
     if (user) {
       if (user) {
-        resp.send(user);
+        resp.json(user);
       }
     } else {
-      resp.send({ result: "No User found" });
+      resp.json({ result: "No User found" });
     }
   } else {
-    resp.send({ result: "No User found" });
+    resp.json({ result: "No User found" });
   }
 }catch(e){
-  resp.status(409).send(e.message);
+  resp.status(500).json(e);
 }
 });
 
@@ -46,10 +46,10 @@ app.post("/add-product", async (req, resp) => {
   try{
     let product = new Product(req.body);
     let result = await product.save();
-    resp.send(result);
+    resp.json(result);
   }
   catch(e){
-  resp.status(409).send(e.message);
+  resp.status(500).json(e);
 
   }
 });
@@ -58,12 +58,12 @@ app.get("/products", async (req, resp) => {
 try{
   const products = await Product.find();
   if (products.length > 0) {
-      resp.send(products)
+      resp.json(products)
   } else {
-      resp.send({ result: "No Product found" })
+      resp.json({ result: "No Product found" })
   }
 }  catch(e){
-  resp.status(409).send(e.message);
+  resp.status(500).json(e);
 
   }
 });;
@@ -71,9 +71,9 @@ try{
 app.delete("/product/:id", async (req, resp) => {
   try{
     let result = await Product.deleteOne({ _id: req.params.id });
-    resp.send(result)
+    resp.json(result)
   } catch(e){
-    resp.status(409).send(e.message);
+    resp.status(500).json(e.message);
   
     }
 }),
@@ -83,13 +83,13 @@ app.get("/product/:id", async (req, resp) => {
 try{
   let result = await Product.findOne({ _id: req.params.id })
   if (result) {
-      resp.send(result)
+      resp.json(result)
   } else {
-      resp.send({ "result": "No Record Found." })
+      resp.json({ "result": "No Record Found." })
   }
 }
 catch(e){
-  resp.status(409).send(e.message);
+  resp.status(500).json(e);
   }
 })
 
@@ -100,9 +100,9 @@ try{
     { _id: req.params.id },
     { $set: req.body }
 )
-resp.send(result)
+resp.json(result)
 }catch(e){
-  resp.status(409).send(e.message);
+  resp.status(500).json(e);
   }
 });
 
@@ -112,9 +112,9 @@ app.put("/product/:id", async (req, resp) => {
       { _id: req.params.id },
       { $set: req.body }
   )
-  resp.send(result)
+  resp.json(result)
   }catch(e){
-  resp.status(409).send(e.message);
+  resp.status(500).json(e);
   }
 });
 
@@ -133,10 +133,10 @@ try{
         }
     ]
 });
-resp.send(result);
+resp.json(result);
 }
 catch (e) {
-  resp.status(409).send(e.message);
+  resp.status(500).json(e);
 }
 })
 
