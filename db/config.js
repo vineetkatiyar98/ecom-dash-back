@@ -1,13 +1,13 @@
-dotenv.config();
-
+const mongoose = require('mongoose');
+require ("dotenv").config()
 mongoose.connect(
-  process.env.MONGO_URL,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  },
-  () => {
-    console.log("mongdb is connected");
-  }
-);
+    process.env.MONGO_URL,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    },
+    () => {
+      console.log("mongdb is connected");
+    }
+  );
