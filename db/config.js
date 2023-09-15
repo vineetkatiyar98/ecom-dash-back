@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 require ("dotenv").config()
 mongoose.connect(process.env.MONGO_URL,{
-    dbName: process.env.DB_NAME
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
 }).then(()=>{
     console.log(`connected to ${process.env.DB_NAME}`);
 }).catch((error)=>{
