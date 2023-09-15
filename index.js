@@ -13,7 +13,7 @@ app.use(cors());
 app.post("/register", async (req, resp) => {
   try{
     let user = new User(req.body);
-    let result = await user.insertOne();
+    let result = await user.save();
     result = result.toObject();
     delete result.password;
     resp.status(200).json(result);
